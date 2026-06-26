@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DepEd Learner's Progress Report</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
+        body { background: #f5f5f5; padding: 10px; }
+        .action-bar { max-width: 21cm; margin: 0 auto 10px; display: flex; gap: 10px; flex-wrap: wrap; }
+        .action-btn { background: #005ea2; color: white; border: none; padding: 8px 16px; font-size: 14px; border-radius: 3px; cursor: pointer; font-weight: bold; }
+        .action-btn:hover { background: #004b85; }
+        .page { background: white; width: 21cm; min-height: 29.7cm; margin: 0 auto; padding: 1cm; border: 1px solid #000; font-size: 9pt; line-height: 1.25; }
+        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+        .logo-box { width: 50px; height: 50px; border: 1px solid #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8pt; text-align: center; }
+        .deped-header { text-align: center; flex: 1; font-size: 8pt; }
+        h2 { font-size: 11pt; text-align: center; margin: 4px 0; font-weight: bold; }
+        h3 { font-size: 9pt; margin: 5px 0 2px; font-weight: bold; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px 8px; margin: 5px 0; font-size: 8pt; }
+        .info-grid input { width: 100%; border: none; border-bottom: 1px solid #000; padding: 1px 3px; font-size: 8pt; background: transparent; }
+        .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
+        .term-section { border: 1px solid #000; padding: 5px; margin-bottom: 6px; }
+        .term-section p { margin: 2px 0 1px; font-weight: bold; font-size: 7pt; }
+        .term-section textarea { width: 100%; min-height: 28px; border: 1px solid #999; padding: 2px; resize: vertical; font-size: 7pt; background: #fff; }
+        .signature-line { margin-top: 3px; font-size: 7pt; }
+        .signature-line input { width: 70%; border: none; border-bottom: 1px solid #000; padding: 1px; font-size: 7pt; background: transparent; }
+        table { width: 100%; border-collapse: collapse; margin: 4px 0; font-size: 7pt; }
+        table, th, td { border: 1px solid #000; }
+        th, td { padding: 2px 3px; vertical-align: top; }
+        table input { width: 100%; border: none; outline: none; font-size: 7pt; background: transparent; }
+        .note-block, .transfer-block { margin: 5px 0; font-size: 7pt; line-height: 1.2; }
+        @media print { .action-bar { display: none; } body { background: white; padding: 0; } .page { border: none; width: 21cm; min-height: 29.7cm; margin: 0; } }
+    </style>
+</head>
+<body>
+
+<div class="action-bar">
+    <button class="action-btn" onclick="exportToDocx()">📤 Export to Word (.doc)</button>
+    <button class="action-btn" onclick="window.print()">🖨️ Print Form</button>
+</div>
+
+<div class="page" id="reportForm">
+    <div class="header-top">
+        <div class="logo-box">School Logo</div>
+        <div class="deped-header">
+            <p>Republic of the Philippines<br>
+            Department of Education<br>
+            Region: <input type="text" id="region"><br>
+            SCHOOLS DIVISION OFFICE OF<br>
+            District: <input type="text" id="district"><br>
+            Municipality/City, Province: <input type="text" id="locality"><br>
+            School: <input type="text" id="school"></p>
+        </div>
+    </div>
+
+    <h2>LEARNER'S PROGRESS REPORT (GRADE 1 - 3)</h2>
+    <p style="text-align: center; font-size: 8pt;">School Year: <input type="text" id="sy" style="width:100px;"></p>
+
+    <div class="info-grid">
+        <div>LRN: <input type="text" id="lrn"></div>
+        <div>Name: <input type="text" id="name"></div>
+        <div>Grade & Section: <input type="text" id="grade"></div>
+        <div>Address: <input type="text" id="address"></div>
+        <div>Sex: <input type="text" id="sex" style="width:40px;"></div>
+        <div>Age: <input type="text" id="age" style="width:40px;"></div>
+    </div>
+
+    <p style="font-weight: bold; font-size: 8pt; margin-top: 4px;">Dear Parents/Guardians,</p>
+    <p style="text-align: justify; font-size: 7pt; margin: 2px 0;">
+        This report provides a descriptive account of your child’s learning progress for each term. It highlights what your child can already do, what they are currently developing, and how they can be further supported.<br><br>
+        This report is based on varied evidence of learning, including classroom activities, observations, learner outputs, and assessments. It is designed to give a clearer and more meaningful understanding of your child’s development rather than relying on numerical or letter grades.
+    </p>
+
+    <div class="two-column">
+        <div>
+            <div class="term-section">
+                <h3>TERM 1 (UNANG TERMINO)</h3>
+                <p>What Your Child Can Do (Mga Nagagampanan)</p>
+                <textarea id="t1_can"></textarea>
+                <p>What Your Child is Learning To Improve (Dapat Pahusayin)</p>
+                <textarea id="t1_improve"></textarea>
+                <div class="signature-line">Parent's/Guardian's Signature: <input type="text" id="sig1"></div>
+            </div>
+            <div class="term-section">
+                <h3>TERM 2 (IKALAWANG TERMINO)</h3>
+                <p>What Your Child Can Do (Mga Nagagampanan)</p>
+                <textarea id="t2_can"></textarea>
+                <p>What Your Child is Learning To Improve (Dapat Pahusayin)</p>
+                <textarea id="t2_improve"></textarea>
+                <div class="signature-line">Parent's/Guardian's Signature: <input type="text" id="sig2"></div>
+            </div>
+            <div class="term-section">
+                <h3>TERM 3 (IKATLONG TERMINO)</h3>
+                <p>What Your Child Can Do (Mga Nagagampanan)</p>
+                <textarea id="t3_can"></textarea>
+                <p>What Your Child is Learning To Improve (Dapat Pahusayin)</p>
+                <textarea id="t3_improve"></textarea>
+                <div class="signature-line">Parent's/Guardian's Signature: <input type="text" id="sig3"></div>
+            </div>
+        </div>
+
+        <div>
+            <h3>ATTENDANCE RECORD</h3>
+            <table>
+                <thead>
+                    <tr><th>Term</th><th>Month</th><th>School Days</th><th>Present</th><th>Absent</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td rowspan="3">1</td><td>June</td><td><input type="text" class="att"></td><td><input type="text" class="att"></td><td><input type="text" class="att"></td></tr>
+                    <tr><td>July</td><td><input type="text" class="att"></td><td><input type="text" class="att"></td><td><input type="text" class="att"></td></tr>
+                    <tr><td>August</td><td><input type="text" class="att"></td><td><input type="text" class="att"></td><td><input type="text" class="att"></td></tr>
+                    <tr><td rowspan="4">2</td><td>September</td><td><input type="text" class="att"></td><td><input type="text" class="att"></td><td><input type="text" class="att"></td></tr>
+                    <tr><td>October</td><td><input type="text" class="att"></td><td><input type="text" class="att"></td><td><input type="text" class="att"></td></tr>
+                    <tr><td>November</td><td><input type="text" class="att"></td><td><input type="text" class="att"></td><td><input type="text" class="att"></td></tr>
+                    <tr><td>December</td><td><input type="text" class="att"></td><td><input type="text" class="att"></td><td><input type="text" class="att"></td></tr>
+                    <tr><td rowspan="3">3</td><td>January</td><td><input type="text" class="att"></td><td><input type="text" class="att"></td><td><input type="text" class="att"></td></tr>
+                    <tr><td>February</td><td><input type="text" class="att"></td><td><input type="text" class="att"></td><td><input type="text" class="att"></td></tr>
+                    <tr><td>March / April</td><td><input type="text" class="att"></td><td><input type="text" class="att"></td><td><input type="text" class="att"></td></tr>
+                    <tr><td colspan="2"><strong>TOTAL</strong></td><td><input type="text" class="att"></td><td><input type="text" class="att"></td><td><input type="text" class="att"></td></tr>
+                </tbody>
+            </table>
+
+            <div class="note-block">
+                <h3>IMPORTANT NOTE TO PARENTS/GUARDIANS</h3>
+                <p>A detailed record of your child’s progress across specific learning competencies is attached in the succeeding page. This includes the monitoring of skills in Literacy and Reading, Language, Mathematics, Good Manners and Right Conduct, and Makabayan.</p>
+                <p style="font-weight: bold; margin-top: 3px;">Performance levels used in monitoring:</p>
+                <table>
+                    <tr><th>Level</th><th>Descriptor</th><th>Description</th></tr>
+                    <tr><td>A</td><td>Advancing</td><td>Exceeds expectations</td></tr>
+                    <tr><td>B</td><td>Benchmarking</td><td>Meets expectations</td></tr>
+                    <tr><td>C</td><td>Connecting</td><td>Needs minimal guidance</td></tr>
+                    <tr><td>D</td><td>Developing</td><td>Needs regular support</td></tr>
+                    <tr><td>E</td><td>Energizing</td><td>Beginning skills</td></tr>
+                </table>
+            </div>
+
+            <div class="transfer-block">
+                <h3>CERTIFICATE OF TRANSFER</h3>
+                <p>This is to certify that the above named learner has satisfactorily completed the requirements for the grade level indicated.<br><br>
+                Admitted to Grade: _________________________<br>
+                Eligible for Admission to Grade: _________________________<br>
+                Approved: _________________________<br>
+                Adviser: _________________________ | School Head: _________________________<br><br>
+                <strong>CANCELLATION OF ELIGIBILITY TO TRANSFER</strong><br>
+                Admitted in: _________________ &nbsp; Date: _________________<br>
+                School Head: _________________________</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function exportToDocx() {
+    try {
+        var get = function(id) {
+            var el = document.getElementById(id);
+            return el ? el.value.trim() : "";
+        };
+
+        var getAtt = function(idx) {
+            var elArr = document.querySelectorAll('.att');
+            return (elArr && elArr[idx]) ? elArr[idx].value.trim() : "";
+        };
+        
+        var safeText = function(val) {
+            if (!val) return "";
+            return val.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, "<br>");
+        };
+
+        var region = safeText(get('region')) || '_________________';
+        var district = safeText(get('district')) || '_________________';
+        var locality = safeText(get('locality')) || '________________________';
+        var school = safeText(get('school')) || '________________________';
+        var sy = safeText(get('sy')) || '__________';
+        var lrn = safeText(get('lrn')) || '___________________';
+        var name = safeText(get('name')) || '_______________________________________';
+        var grade = safeText(get('grade')) || '___________________';
+        var address = safeText(get('address')) || '_______________________________________';
+        var sex = safeText(get('sex')) || '______';
+        var age = safeText(get('age')) || '______';
+
+        var t1_can = safeText(get('t1_can')) || '____________________________________________________<br>____________________________________________________';
+        var t1_improve = safeText(get('t1_improve')) || '____________________________________________________<br>____________________________________________________';
+        var sig1 = safeText(get('sig1')) || '______________________';
+
+        var t2_can = safeText(get('t2_can')) || '____________________________________________________<br>____________________________________________________';
+        var t2_improve = safeText(get('t2_improve')) || '____________________________________________________<br>____________________________________________________';
+        var sig2 = safeText(get('sig2')) || '______________________';
+
+        var t3_can = safeText(get('t3_can')) || '____________________________________________________<br>____________________________________________________';
+        var t3_improve = safeText(get('t3_improve')) || '____________________________________________________<br>____________________________________________________';
+        var sig3 = safeText(get('sig3')) || '______________________';
+
+        var htmlContent = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">' +
+        '<head><meta charset="UTF-8"><title>DepEd Progress Report</title>' +
+        '<style>' +
+        '@page { size: A4 portrait; margin: 1.2cm; mso-header-margin:36.0pt; mso-footer-margin:36.0pt; }' +
+        'body { font-family: "Arial", sans-serif; font-size: 8pt; line-height: 1.2; color: #000000; }' +
+        'h2 { text-align: center; font-size: 11pt; font-weight: bold; margin: 4px 0; }' +
+        'h3 { font-size: 9pt; font-weight: bold; margin: 4px 0 2px; }' +
+        'p { margin: 0 0 3px 0; }' +
+        'table { border-collapse: collapse; width: 100%; margin: 2px 0; font-size: 7.5pt; }' +
+        'th, td { border: 1px solid #000000; padding: 2px 3px; vertical-align: top; }' +
+        '.text-center { text-align: center; }' +
+        '.text-justify { text-align: justify; }' +
+        '.bold { font-weight: bold; }' +
+        '.underlined { text-decoration: underline; }' +
+        '.term-box { border: 1px solid #000000; padding: 4px; margin-bottom: 5px; }' +
+        '.term-title { font-weight: bold; font-size: 7.5pt; margin-top: 3px; }' +
+        '.term-val { min-height:24px; font-size: 7.5pt; color: #111; margin-bottom: 4px; padding-left: 2px; }' +
+        '</style></head>' +
+        '<body>' +
+        '<p class="text-center" style="font-size: 8.5pt;">Republic of the Philippines<br>' +
+        '<span class="bold">Department of Education</span><br>' +
+        'Region: <span class="underlined">' + region + '</span><br>' +
+        '<span class="bold">SCHOOLS DIVISION OFFICE OF</span><br>' +
+        'District: <span class="underlined">' + district + '</span><br>' +
+        'Municipality/City, Province: <span class="underlined">' + locality + '</span><br>' +
+        'School: <span class="underlined">' + school + '</span></p>' +
+        '<h2>LEARNER\'S PROGRESS REPORT (GRADE 1 - 3)</h2>' +
+        '<p class="text-center" style="font-size: 8.5pt;"><span class="bold">School Year:</span> <span class="underlined">' + sy + '</span></p>' +
+        '<table style="width:100%; border:none; margin: 4px 0;">' +
+        '  <tr style="border:none;">' +
+        '    <td style="border:none; width:50%; padding:1px;"><span class="bold">LRN:</span> <span class="underlined">' + lrn + '</span></td>' +
+        '    <td style="border:none; width:50%; padding:1px;"><span class="bold">Name:</span> <span class="underlined">' + name + '</span></td>' +
+        '  </tr>' +
+        '  <tr style="border:none;">' +
+        '    <td style="border:none; padding:1px;"><span class="bold">Grade & Section:</span> <span class="underlined">' + grade + '</span></td>' +
+        '    <td style="border:none; padding:1px;"><span class="bold">Address:</span> <span class="underlined">' + address + '</span></td>' +
+        '  </tr>' +
+        '  <tr style="border:none;">' +
+        '    <td style="border:none; padding:1px;" colspan="2"><span class="bold">Sex:</span> <span class="underlined">' + sex + '</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="bold">Age:</span> <span class="underlined">' + age + '</span></td>' +
+        '  </tr>' +
+        '</table>' +
+        '<p><br><span class="bold" style="font-size: 8.5pt;">Dear Parents/Guardians,</span></p>' +
+        '<p class="text-justify" style="font-size: 7.5pt;">This report provides a descriptive account of your child’s learning progress for each term. It highlights what your child can already do, what they are currently developing, and how they can be further supported.</p>' +
+        '<p class="text-justify" style="font-size: 7.5pt;">This report is based on varied evidence of learning, including classroom activities, observations, learner outputs, and assessments. It is designed to give a clearer and more meaningful understanding of your child’s development rather than relying on numerical or letter grades.</p>' +
+        '<br>' +
+        '<table style="width:100%; border:none; table-layout:fixed;">' +
+        '  <tr style="border:none;">' +
+        '    <td style="border:none; width:49%; padding:0 8px 0 0; vertical-align:top;">' +
+        '        <div class="term-box">' +
+        '            <h3>TERM 1 (UNANG TERMINO)</h3>' +
+        '            <p class="term-title">What Your Child Can Do (Mga Nagagampanan)</p>' +
+        '            <div class="term-val">' + t1_can + '</div>' +
+        '            <p class="term-title">What Your Child is Learning To Improve (Dapat Pahusayin)</p>' +
+        '            <div class="term-val">' + t1_improve + '</div>' +
+        '            <p style="font-size:7pt; margin-top:4px;">Parent\'s/Guardian\'s Signature: <span class="underlined">' + sig1 + '</span></p>' +
+        '        </div>' +
+        '        <div class="term-box">' +
+        '            <h3>TERM 2 (IKALAWANG TERMINO)</h3>' +
+        '            <p class="term-title">What Your Child Can Do (Mga Nagagampanan)</p>' +
+        '            <div class="term-val">' + t2_can + '</div>' +
+        '            <p class="term-title">What Your Child is Learning To Improve (Dapat Pahusayin)</p>' +
+        '            <div class="term-val">' + t2_improve + '</div>' +
+        '            <p style="font-size:7pt; margin-top:4px;">Parent\'s/Guardian\'s Signature: <span class="underlined">' + sig2 + '</span></p>' +
+        '        </div>' +
+        '        <div class="term-box">' +
+        '            <h3>TERM 3 (IKATLONG TERMINO)</h3>' +
+        '            <p class="term-title">What Your Child Can Do (Mga Nagagampanan)</p>' +
+        '            <div class="term-val">' + t3_can + '</div>' +
+        '            <p class="term-title">What Your Child is Learning To Improve (Dapat Pahusayin)</p>' +
+        '            <div class="term-val">' + t3_improve + '</div>' +
+        '            <p style="font-size:7pt; margin-top:4px;">Parent\'s/Guardian\'s Signature: <span class="underlined">' + sig3 + '</span></p>' +
+        '        </div>' +
+        '    </td>' +
+        '    <td style="border:none; width:51%; padding:0 0 0 8px; vertical-align:top;">' +
+        '        <h3>ATTENDANCE RECORD</h3>' +
+        '        <table>' +
+        '            <thead>' +
+        '                <tr style="background-color:#f2f2f2;"><th style="width:12%;">Term</th><th style="width:28%;">Month</th><th style="width:20%;">School Days</th><th style="width:20%;">Present</th><th style="width:20%;">Absent</th></tr>' +
+        '            </thead>' +
+        '            <tbody>' +
+        '                <tr><td rowspan="3" class="text-center" style="vertical-align:middle;"><span class="bold">1</span></td><td>June</td><td class="text-center">' + safeText(getAtt(0)) + '</td><td class="text-center">' + safeText(getAtt(1)) + '</td><td class="text-center">' + safeText(getAtt(2)) + '</td></tr>' +
+        '                <tr><td>July</td><td class="text-center">' + safeText(getAtt(3)) + '</td><td class="text-center">' + safeText(getAtt(4)) + '</td><td class="text-center">' + safeText(getAtt(5)) + '</td></tr>' +
+        '                <tr><td>August</td><td class="text-center">' + safeText(getAtt(6)) + '</td><td class="text-center">' + safeText(getAtt(7)) + '</td><td class="text-center">' + safeText(getAtt(8)) + '</td></tr>' +
+        '                <tr><td rowspan="4" class="text-center" style="vertical-align:middle;"><span class="bold">2</span></td><td>September</td><td class="text-center">' + safeText(getAtt(9)) + '</td><td class="text-center">' + safeText(getAtt(10)) + '</td><td class="text-center">' + safeText(getAtt(11)) + '</td></tr>' +
+        '                <tr><td>October</td><td class="text-center">' + safeText(getAtt(12)) + '</td><td class="text-center">' + safeText(getAtt(13)) + '</td><td class="text-center">' + safeText(getAtt(14)) + '</td></tr>' +
+        '                <tr><td>November</td><td class="text-center">' + safeText(getAtt(15)) + '</td><td class="text-center">' + safeText(getAtt(16)) + '</td><td class="text-center">' + safeText(getAtt(17)) + '</td></tr>' +
+        '                <tr><td>December</td><td class="text-center">' + safeText(getAtt(18)) + '</td><td class="text-center">' + safeText(getAtt(19)) + '</td><td class="text-center">' + safeText(getAtt(20)) + '</td></tr>' +
+        '                <tr><td rowspan="3" class="text-center" style="vertical-align:middle;"><span class="bold">3</span></td><td>January</td><td class="text-center">' + safeText(getAtt(21)) + '</td><td class="text-center">' + safeText(getAtt(22)) + '</td><td class="text-center">' + safeText(getAtt(23)) + '</td></tr>' +
+        '                <tr><td>February</td><td class="text-center">' + safeText(getAtt(24)) + '</td><td class="text-center">' + safeText(getAtt(25)) + '</td><td class="text-center">' + safeText(getAtt(26)) + '</td></tr>' +
+        '                <tr><td>March / April</td><td class="text-center">' + safeText(getAtt(27)) + '</td><td class="text-center">' + safeText(getAtt(28)) + '</td><td class="text-center">' + safeText(getAtt(29)) + '</td></tr>' +
+        '                <tr style="background-color:#f9f9f9;"><td colspan="2" class="bold text-center">TOTAL</td><td class="bold text-center">' + safeText(getAtt(30)) + '</td><td class="bold text-center">' + safeText(getAtt(31)) + '</td><td class="bold text-center">' + safeText(getAtt(32)) + '</td></tr>' +
+        '            </tbody>' +
+        '        </table>' +
+        '        <br>' +
+        '        <span class="bold" style="font-size:7.5pt; display:block; margin-bottom:1px;">IMPORTANT NOTE TO PARENTS/GUARDIANS</span>' +
+        '        <p class="text-justify" style="font-size:6.5pt; line-height:1.15;">A detailed record of your child’s progress across specific learning competencies is attached in the succeeding page. This includes the monitoring of skills in Literacy and Reading, Language, Mathematics, Good Manners and Right Conduct, and Makabayan.</p>' +
+        '        <p class="bold" style="font-size:6.5pt; margin-top:2px;">Performance levels used in monitoring:</p>' +
+        '        <table>' +
+        '            <tr style="background-color:#f2f2f2;"><th style="width:15%;">Level</th><th style="width:30%;">Descriptor</th><th style="width:55%;">Description</th></tr>' +
+        '            <tr><td class="text-center bold">A</td><td>Advancing</td><td>Exceeds expectations</td></tr>' +
+        '            <tr><td class="text-center bold">B</td><td>Benchmarking</td><td>Meets expectations</td></tr>' +
+        '            <tr><td class="text-center bold">C</td><td>Connecting</td><td>Needs minimal guidance</td></tr>' +
+        '            <tr><td class="text-center bold">D</td><td>Developing</td><td>Needs regular support</td></tr>' +
+        '            <tr><td class="text-center bold">E</td><td>Energizing</td><td>Beginning skills</td></tr>' +
+        '        </table>' +
+        '        <br>' +
+        '        <span class="bold" style="font-size:7.5pt; display:block; margin-bottom:1px;">CERTIFICATE OF TRANSFER</span>' +
+        '        <p class="text-justify" style="font-size:6.5pt; line-height:1.2;">This is to certify that the above named learner has satisfactorily completed the requirements for the grade level indicated.<br><br>' +
+        '        Admitted to Grade: _________________________<br>' +
+        '        Eligible for Admission to Grade: _________________________<br>' +
+        '        Approved: _________________________<br>' +
+        '        Adviser: _________________ | School Head: _________________<br><br>' +
+        '        <span class="bold">CANCELLATION OF ELIGIBILITY TO TRANSFER</span><br>' +
+        '        Admitted in: _________________ &nbsp;&nbsp; Date: _________________<br>' +
+        '        School Head: _________________________</p>' +
+        '    </td>' +
+        '  </tr>' +
+        '</table>' +
+        '</body></html>';
+
+        var blobContent = new Uint8Array([0xEF, 0xBB, 0xBF]); 
+        var buffer = new TextEncoder().encode(htmlContent);
+        
+        var blob = new Blob([blobContent, buffer], { type: "application/msword;charset=utf-8" });
+        var currentName = get('name');
+        var fileName = "DepEd_Progress_Report_" + (currentName ? currentName.replace(/[^a-zA-Z0-9]/g, "_") : "Report") + ".doc";
+        
+        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+            window.navigator.msSaveOrOpenBlob(blob, fileName);
+        } else {
+            var link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = fileName;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href);
+        }
+
+    } catch (err) {
+        console.error("Export error details:", err);
+        alert("Export failed: " + err.message);
+    }
+}
+</script>
+
+</body>
+</html>
