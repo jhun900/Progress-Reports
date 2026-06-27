@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* A4 Aspect Ratio Styles */
+        .page { width: 210mm; min-height: 297mm; padding: 20mm; margin: 10mm auto; border: 1px solid #ccc; background: white; white-space: pre-wrap; }
+        @media print { .no-print { display: none; } .page { border: none; } }
+    </style>
+</head>
+<body>
+    <div class="no-print">
+        <select id="grade">
+            <option value="1">Grade 1</option>
+            <option value="6">Grade 6</option>
+        </select>
+        <button onclick="generate()">Generate Resource</button>
+        <button onclick="window.print()">Print to PDF</button>
+    </div>
+
+    <div id="content" class="page">Results will appear here...</div>
+
+    <script>
+        async function generate() {
+            const contentDiv = document.getElementById('content');
+            contentDiv.innerText = "Generating...";
+            
+            const payload = {
+                prompt: `Generate reading material for Grade ${document.getElementById('grade').value}, English, Short Story.`
+            };
+            
+            try {
+                // Pointing to your serverless backend
+                const res = await fetch('/api/generate', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                contentDiv.innerText = data.content;
+            } catch (error) {
+                contentDiv.innerText = "Error: Could not connect to backend.";
+            }
+        }
+    </script>
+</body>
+</html>
