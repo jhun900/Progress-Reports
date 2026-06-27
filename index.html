@@ -42,16 +42,14 @@
                 <a href="Official DepEd ILAW Lesson Plan Generator.html" onclick="return handleToolAccess(event, this.href)" class="text-xs font-bold text-depedBlue">Open Tool <i class="fa fa-arrow-right"></i></a>
             </div>
             
-            </div>
+        </div>
     </main>
 
     <script>
+        // Initialize and update counter on load
         let freeTries = parseInt(localStorage.getItem('deped_toolkit_tries') || 3);
+        document.getElementById('triesCounter').innerText = freeTries;
         
-        function updateUiCounter() {
-            document.getElementById('triesCounter').innerText = freeTries;
-        }
-
         function handleToolAccess(event, url) {
             if (freeTries > 0) return true;
             event.preventDefault();
