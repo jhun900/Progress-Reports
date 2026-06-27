@@ -253,7 +253,6 @@
 
     <!-- Frontend Core Functional JavaScript Engines -->
     <script>
-        // Track free tries using LocalStorage memory data logic
         let freeTries = localStorage.getItem('deped_toolkit_tries');
         if (freeTries === null) {
             freeTries = 3;
@@ -262,24 +261,36 @@
             freeTries = parseInt(freeTries);
         }
 
+        // Listen for when a user returns to the dashboard tab to check if they used a try inside a tool
+        window.addEventListener('focus', function() {
+            let latestTries = localStorage.getItem('deped_toolkit_tries');
+            if (latestTries !== null) {
+                freeTries = parseInt(latestTries);
+                updateUiCounter();
+            }
+        });
+
         updateUiCounter();
 
         function updateUiCounter() {
             document.getElementById('triesCounter').innerText = freeTries;
             const badge = document.getElementById('trialBadge');
-            if (freeTries === 0) {
+            if (freeTries <= 0) {
                 badge.classList.remove('bg-blue-50', 'text-depedBlue', 'border-blue-200');
                 badge.classList.add('bg-red-50', 'text-red-600', 'border-red-200');
                 badge.innerHTML = '<i class="fa fa-lock mr-1"></i> Trial Expired';
+            } else {
+                badge.classList.add('bg-blue-50', 'text-depedBlue', 'border-blue-200');
+                badge.classList.remove('bg-red-50', 'text-red-600', 'border-red-200');
+                badge.innerHTML = `<i class="fa fa-bolt mr-1"></i> Free Tries Left: <span id="triesCounter">${freeTries}</span>/3`;
             }
         }
 
         function handleToolAccess(event, url) {
+            // Teachers can ALWAYS open/browse the tool interface as long as they have 1 or more tries remaining.
+            // If they are at 0, browsing is blocked completely.
             if (freeTries > 0) {
-                freeTries--;
-                localStorage.setItem('deped_toolkit_tries', freeTries);
-                updateUiCounter();
-                return true; // Allows navigating to local tool file safely
+                return true; 
             } else {
                 event.preventDefault();
                 openPaywallModal();
