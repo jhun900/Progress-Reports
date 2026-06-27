@@ -3,18 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Report Card Generator</title>
-    <style>
-        body { font-family: Arial, sans-serif; max-width: 700px; margin: 50px auto; padding: 20px; text-align: center; }
-        .button { display: inline-block; margin: 15px; padding: 15px 25px; background: #2ea44f; color: white; text-decoration: none; border-radius: 6px; font-size: 18px; }
-        .button:hover { background: #2c974b; }
-    </style>
+    <title>Teaching Essentials PH</title>
+    <!-- Tailwind CSS Engine -->
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>Report Card Generator</h1>
-    <p>Select the grade level you need:</p>
+<body class="bg-gray-50 min-h-screen flex flex-col justify-between font-sans">
 
-    <a href="Progress Report for Grades 1 to 3.html" class="button">Grades 1 to 3</a>
-    <a href="Progress Report for Grades 4 to 12.html" class="button">Grades 4 to 12</a>
+    <!-- Header Section -->
+    <header class="bg-blue-800 text-white shadow-md py-8 px-4 text-center">
+        <h1 class="text-3xl md:text-4xl font-bold tracking-tight">Teaching Essentials PH</h1>
+        <p class="text-blue-200 mt-2 text-sm md:text-base">Automated Grading, Progress Reporting, & Assessment Tools for Philippine Educators</p>
+    </header>
+
+    <!-- Main Navigation Hub Grid Content -->
+    <main class="max-w-6xl mx-auto my-10 px-4 flex-grow w-full">
+        <h2 class="text-xl font-semibold text-gray-700 mb-6 border-b pb-2">Select a Dashboard / Generator Module:</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            <!-- Card Item 1: Assessment Generator Matrix -->
+            <div class="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden hover:shadow-lg transition flex flex-col justify-between">
+                <div class="p-6">
+                    <div class="bg-red-100 text-red-800 font-bold text-xs px-2.5 py-1 rounded-full uppercase tracking-wider w-max mb-3">
+                        Assessment Matrix
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">DepEd Assessment & TOS Generator</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Generate dynamically balanced Tables of Specifications (TOS), randomized multi-level test questions, and matching validation answer keys aligned with cognitive dimensions.
+                    </p>
+                </div>
+                <div class="p-6 bg-gray-50 border-t border-gray-100">
+                    <a href="DepEd Assessment Generator v1.0.html" class="block text-center w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded transition text-sm">
+                        Open Assessment Tool
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card Item 2: Report Card Grades 1 to 3 -->
+            <div class="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden hover:shadow-lg transition flex flex-col justify-between">
+                <div class="p-6">
+                    <div class="bg-green-100 text-green-800 font-bold text-xs px-2.5 py-1 rounded-full uppercase tracking-wider w-max mb-3">
+                        Primary Level
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Progress Report (Grades 1 to 3)</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Input, calculate, and format foundational reports, continuous tracking matrix summaries, and customized feedback files engineered for lower-grade evaluation profiles.
+                    </p>
+                </div>
+                <div class="p-6 bg-gray-50 border-t border-gray-100">
+                    <a href="Progress Report for Grades 1 to 3.html" class="block text-center w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded transition text-sm">
+                        Open Primary Tracker
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card Item 3: Report Card Grades 4 to 12 -->
+            <div class="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden hover:shadow-lg transition flex flex-col justify-between">
+                <div class="p-6">
+                    <div class="bg-blue-100 text-blue-800 font-bold text-xs px-2.5 py-1 rounded-full uppercase tracking-wider w-max mb-3">
+                        Intermediate & Secondary
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Progress Report (Grades 4 to 12)</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Compute advanced components, core localized subject grade averages, electives tracking matrices, and comprehensive performance portfolios matching high school standards.
+                    </p>
+                </div>
+                <div class="p-6 bg-gray-50 border-t border-gray-100">
+                    <a href="Progress Report for Grades 4 to 12.html" class="block text-center w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded transition text-sm">
+                        Open Secondary Tracker
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer Branding Section -->
+    <footer class="bg-gray-800 text-gray-400 text-center py-4 text-xs border-t border-gray-700">
+        <p>&copy; 2026 Teaching Essentials PH. All administrative tools are fully responsive and deployed locally.</p>
+    </footer>
+
 </body>
 </html>
