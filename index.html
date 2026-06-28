@@ -466,134 +466,38 @@
 
     <!-- Frontend Core Functional JavaScript Engines -->
 
-    <script>
+   <script>
+    // Function to update UI with current count
+    function updateDashboardCounter() {
+        let currentTries = localStorage.getItem('deped_toolkit_tries');
+        if (currentTries === null) {
+            currentTries = 3;
+            localStorage.setItem('deped_toolkit_tries', 3);
+        }
+        const counterEl = document.getElementById('triesCounter');
+        if (counterEl) {
+            counterEl.innerText = currentTries;
+        }
+    }
 
-        let freeTries = localStorage.getItem('deped_toolkit_tries');
+    // Run on load
+    updateDashboardCounter();
 
-        if (freeTries === null) {
+    // Check for updates when user returns to this tab
+    window.addEventListener('focus', updateDashboardCounter);
 
-            freeTries = 3;
-
-            localStorage.setItem('deped_toolkit_tries', freeTries);
-
+    function handleToolAccess(event, url) {
+        let currentTries = parseInt(localStorage.getItem('deped_toolkit_tries') || 3);
+        if (currentTries > 0) {
+            return true;
         } else {
-
-            freeTries = parseInt(freeTries);
-
+            event.preventDefault();
+            // You can call your modal function here if you have one
+            alert("Free tries exhausted. Please upgrade to continue.");
+            return false;
         }
-
-
-
-        // Listen for when a user returns to the dashboard tab to check if they used a try inside a tool
-
-        window.addEventListener('focus', function() {
-
-            let latestTries = localStorage.getItem('deped_toolkit_tries');
-
-            if (latestTries !== null) {
-
-                freeTries = parseInt(latestTries);
-
-                updateUiCounter();
-
-            }
-
-        });
-
-
-
-        updateUiCounter();
-
-
-
-        function updateUiCounter() {
-
-            document.getElementById('triesCounter').innerText = freeTries;
-
-            const badge = document.getElementById('trialBadge');
-
-            if (freeTries <= 0) {
-
-                badge.classList.remove('bg-blue-50', 'text-depedBlue', 'border-blue-200');
-
-                badge.classList.add('bg-red-50', 'text-red-600', 'border-red-200');
-
-                badge.innerHTML = '<i class="fa fa-lock mr-1"></i> Trial Expired';
-
-            } else {
-
-                badge.classList.add('bg-blue-50', 'text-depedBlue', 'border-blue-200');
-
-                badge.classList.remove('bg-red-50', 'text-red-600', 'border-red-200');
-
-                badge.innerHTML = `<i class="fa fa-bolt mr-1"></i> Free Tries Left: <span id="triesCounter">${freeTries}</span>/3`;
-
-            }
-
-        }
-
-
-
-        function handleToolAccess(event, url) {
-
-            // Teachers can ALWAYS open/browse the tool interface as long as they have 1 or more tries remaining.
-
-            // If they are at 0, browsing is blocked completely.
-
-            if (freeTries > 0) {
-
-                return true; 
-
-            } else {
-
-                event.preventDefault();
-
-                openPaywallModal();
-
-                return false;
-
-            }
-
-        }
-
-
-
-        function openPaywallModal() {
-
-            const modal = document.getElementById('paywallModal');
-
-            modal.classList.remove('hidden');
-
-            setTimeout(() => {
-
-                modal.classList.remove('opacity-0');
-
-                modal.querySelector('div').classList.remove('scale-95');
-
-            }, 10);
-
-        }
-
-
-
-        function closePaywallModal() {
-
-            const modal = document.getElementById('paywallModal');
-
-            modal.classList.add('opacity-0');
-
-            modal.querySelector('div').classList.add('scale-95');
-
-            setTimeout(() => {
-
-                modal.classList.add('hidden');
-
-            }, 300);
-
-        }
-
-    </script>
-
+    }
+</script>
 </body>
 
 </html>
