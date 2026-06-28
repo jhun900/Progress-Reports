@@ -765,26 +765,28 @@ th {
         }
     </script>
     <script type="module">
-        import { checkExportLimit } from './firebase-config.js';
+    import { checkExportLimit } from './firebase-config.js';
 
-    // This handles the Generation gatekeeper
+    // Link the button to the generation process
     document.getElementById('generateBtn').addEventListener('click', async () => {
-            const status = document.getElementById("status");
-            status.textContent = "Verifying trial limit...";
-            
-            // Check Firebase Firestore for remaining tries
-            const canExport = await checkExportLimit();
-            
-            if (canExport === true) {
-                status.textContent = "Limit confirmed. Generating...";
-                // Call the generation function defined in your script
-                generateAll();
-            } else {
-                // If false, checkExportLimit automatically handles the alert and redirection
-                status.textContent = "Trial limit reached.";
-            }
-        });
-    </script>
+        const btn = document.getElementById("generateBtn");
+        const status = document.getElementById("status");
+        
+        status.textContent = "Checking limit and generating...";
+        
+        // 1. Check Firebase Limit
+        const success = await checkExportLimit();
+        
+        if (success) {
+            // 2. If allowed, call your existing generation function
+            console.log("Access granted. Generating...");
+            generateAll(); 
+        } else {
+            // If success is false, checkExportLimit already handled the alert/redirect
+            status.textContent = "Generation blocked.";
+        }
+    });
+</script>
 
     </body>
 </html>
