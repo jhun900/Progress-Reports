@@ -131,9 +131,9 @@ Classify various materials as solid, liquid, or gas based on attributes."></text
 
         <!-- Replace your existing Generate button with this -->
 <button id="generateBtn" class="mt-5 w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 px-4 rounded transition">
-    Generate TOS & Test Questions
-</button>
-        <p id="status" class="mt-2 text-center text-sm"></p>
+        Generate TOS & Test Questions
+    </button>
+    <p id="status" class="mt-2 text-center text-sm"></p>
     </div>
 
     <div id="output" class="hidden">
@@ -765,22 +765,26 @@ th {
         }
     </script>
     <script type="module">
-    import { checkExportLimit } from './firebase-config.js';
+        import { checkExportLimit } from './firebase-config.js';
 
     // This handles the Generation gatekeeper
     document.getElementById('generateBtn').addEventListener('click', async () => {
-        // First, check the Firestore export limit
-        const canExport = await checkExportLimit();
-        
-        if (canExport) {
-            // Only proceed with generation if Firebase confirms < 3 tries used
-            generateAll(); 
-        } else {
-            // If checkExportLimit returns false, the user has reached their limit
-            // and the function has already redirected them to the subscription page.
-            console.warn("Generation blocked: Export limit reached.");
-        }
-    });
-</script>
-</body>
+            const status = document.getElementById("status");
+            status.textContent = "Verifying trial limit...";
+            
+            // Check Firebase Firestore for remaining tries
+            const canExport = await checkExportLimit();
+            
+            if (canExport === true) {
+                status.textContent = "Limit confirmed. Generating...";
+                // Call the generation function defined in your script
+                generateAll();
+            } else {
+                // If false, checkExportLimit automatically handles the alert and redirection
+                status.textContent = "Trial limit reached.";
+            }
+        });
+    </script>
+
+    </body>
 </html>
