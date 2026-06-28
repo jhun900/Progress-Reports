@@ -763,7 +763,15 @@ th {
             });
             saveAs(blob, `DepEd_Assessment_Matrix_${d.subject}.doc`);
         }
+        
     </script>
+    <div id="subscriptionModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000;">
+        <div style="background:white; margin:15% auto; padding:20px; width:300px; border-radius:8px; text-align:center;">
+            <h3>Unlock Premium</h3>
+            <p>You've reached your free trial limit. Subscribe to continue using the toolkit.</p>
+            <button onclick="window.location.href='Subscription button.html'" style="background:#d97706; color:white; padding:10px; border:none; border-radius:4px; cursor:pointer;">View Plans</button>
+        </div>
+    </div>
     <script type="module">
     import { checkExportLimit } from './firebase-config.js';
 
@@ -781,10 +789,11 @@ th {
             // 2. If allowed, call your existing generation function
             console.log("Access granted. Generating...");
             generateAll(); 
-        } else {
-            // If success is false, checkExportLimit already handled the alert/redirect
-            status.textContent = "Generation blocked.";
-        }
+       } else {
+    // Show the modal to the user
+    document.getElementById('subscriptionModal').style.display = 'block';
+    status.textContent = "Generation blocked.";
+}
     });
 </script>
 
