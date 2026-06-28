@@ -34,6 +34,16 @@
         .btn-pdf { @apply bg-red-600 hover:bg-red-700; }
         .btn-word { @apply bg-blue-600 hover:bg-blue-700; }
     </style>
+    <script>
+    function decrementCounter() {
+        let currentTries = localStorage.getItem('deped_toolkit_tries');
+        if (currentTries > 0) {
+            currentTries--;
+            localStorage.setItem('deped_toolkit_tries', currentTries);
+            console.log("Try used. Remaining: " + currentTries);
+        }
+    }
+</script>
 </head>
 <body class="bg-gray-50 max-w-7xl mx-auto p-4 md:p-6">
 
