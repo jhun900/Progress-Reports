@@ -6,8 +6,8 @@
     <title>Subscription Plans</title>
     <style>
         :root {
-            --primary-color: #0b4975; /* Matches your dashboard header */
-            --accent-color: #28a745;  /* Matches your "System Online" badge */
+            --primary-color: #0b4975;
+            --accent-color: #28a745;
             --bg-color: #f8f9fa;
             --text-color: #333;
         }
@@ -17,6 +17,7 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
@@ -43,84 +44,6 @@
             min-width: 280px;
             max-width: 380px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .pricing-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Highlight the Annual Plan */
-        .pricing-card.featured {
-            border: 2px solid var(--primary-color);
-        }
-
-        .badge {
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: var(--accent-color);
-            color: white;
-            padding: 4px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            letter-spacing: 0.5px;
-        }
-
-        .plan-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin: 0 0 12px 0;
-        }
-
-        .plan-price {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 8px;
-        }
-
-        .plan-price span {
-            font-size: 1rem;
-            font-weight: 400;
-            color: #666;
-        }
-
-        .plan-savings {
-            color: var(--accent-color);
-            font-weight: 600;
-            font-size: 0.95rem;
-            margin-bottom: 24px;
-            min-height: 20px; /* Prevents card layout shifting */
-        }
-
-        .plan-features {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 32px 0;
-            text-align: left;
-            flex-grow: 1;
-        }
-
-        .plan-features li {
-            padding: 10px 0;
-            border-bottom: 1px solid #f0f2f5;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-        }
-
-        .plan-features li::before {
-            content: "✓";
-            color: var(--accent-color);
-            font-weight: bold;
-            margin-right: 10px;
         }
 
         .btn-subscribe {
@@ -138,25 +61,16 @@
         .btn-subscribe:hover {
             background-color: #083556;
         }
-
-        .featured .btn-subscribe {
-            background-color: var(--accent-color);
-        }
-
-        .featured .btn-subscribe:hover {
-            background-color: #218838;
-        }
     </style>
 </head>
 <body>
 
 <div class="pricing-container">
-    
     <div class="pricing-card">
         <a href="https://pm.link/org-3uNpEp6juxNSZQt3KcdRoWSP/o1afH3D" target="_blank" class="btn-subscribe">Subscribe Monthly</a>
     </div>
 
-    <div class="pricing-card featured">
+    <div class="pricing-card">
         <a href="https://pm.link/org-3uNpEp6juxNSZQt3KcdRoWSP/WnvIcRV" target="_blank" class="btn-subscribe">Subscribe Annually</a>
     </div>
 </div>
@@ -164,8 +78,7 @@
 <div style="margin-top: 40px; text-align: center;">
     <button id="verifyBtn" 
             onclick="activatePremium()" 
-            style="background: #ccc; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;" 
-            class="hidden">
+            style="display: none; background: #28a745; color: white; border: none; padding: 12px 24px; border-radius: 5px; cursor: pointer; font-weight: bold;">
         Verify Payment & Unlock Premium
     </button>
 </div>
@@ -178,11 +91,15 @@
         window.location.href = "index.html";
     }
 
-    // Optional: Add a keyboard shortcut to show the button (e.g., Press 'V')
-    // This allows you to verify a user secretly without cluttering the page.
+    // Press 'v' (case insensitive) to toggle the visibility of the button
     document.addEventListener('keydown', function(event) {
-        if (event.key === 'v') {
-            document.getElementById('verifyBtn').classList.remove('hidden');
+        if (event.key.toLowerCase() === 'v') {
+            const btn = document.getElementById('verifyBtn');
+            if (btn.style.display === 'none') {
+                btn.style.display = 'inline-block';
+            } else {
+                btn.style.display = 'none';
+            }
         }
     });
 </script>
