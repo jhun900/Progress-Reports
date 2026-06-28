@@ -49,8 +49,8 @@
         }
     </style>
     <head>
-    <script>
-    // Existing decrement function
+   <script>
+    // Logic to run when Export button is clicked
     function decrementCounter() {
         let currentTries = parseInt(localStorage.getItem('deped_toolkit_tries') || 3);
         if (currentTries > 0) {
@@ -59,22 +59,19 @@
         }
     }
 
-    // New Event Listeners
+    // Automatically attach to your Export buttons
     document.addEventListener('DOMContentLoaded', function() {
-        const pdfBtn = document.getElementById('exportPdfBtn');
-        const docxBtn = document.getElementById('exportDocxBtn');
-
-        if(pdfBtn) {
-            pdfBtn.addEventListener('click', function() {
-                decrementCounter();
-            });
-        }
+        // Replace 'exportPdfBtn' and 'exportDocxBtn' with the actual IDs of your buttons
+        const exportButtons = ['exportPdfBtn', 'exportDocxBtn']; 
         
-        if(docxBtn) {
-            docxBtn.addEventListener('click', function() {
-                decrementCounter();
-            });
-        }
+        exportButtons.forEach(id => {
+            const btn = document.getElementById(id);
+            if(btn) {
+                btn.addEventListener('click', function() {
+                    decrementCounter();
+                });
+            }
+        });
     });
 </script>
         // Add this inside the event listeners above
