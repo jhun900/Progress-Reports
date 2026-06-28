@@ -14,40 +14,77 @@
             --hover-shadow: 0 8px 12px rgba(0,0,0,0.15);
         }
 
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
 
         /* Navigation Bar */
-        nav { background: white; padding: 15px 40px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; }
+        nav {
+            background: white;
+            padding: 15px 40px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
         .logo { font-weight: bold; color: var(--primary-color); font-size: 1.2rem; }
-        .nav-right { display: flex; align-items: center; gap: 20px; }
 
         .container { max-width: 1000px; margin: 40px auto; flex: 1; padding: 0 20px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .card { background: var(--card-bg); padding: 25px; border-radius: 12px; border: 1px solid #e1e1e1; box-shadow: var(--shadow); transition: all 0.3s ease; }
-        .card:hover { transform: translateY(-5px); box-shadow: var(--hover-shadow); border-color: var(--primary-color); }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #e1e1e1;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--primary-color);
+        }
+
         .card h3 { margin-top: 0; color: var(--primary-color); }
         .card p { font-size: 0.9em; color: #666; line-height: 1.5; }
-        .btn { display: inline-block; margin-top: 15px; color: var(--primary-color); font-weight: 600; text-decoration: none; cursor: pointer; border: none; background: none; }
 
-        /* Modal Styles */
-        #sub-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:1000; justify-content:center; align-items:center; }
-        .modal-content { background:white; padding:20px; border-radius:20px; width:90%; max-width:900px; height:80vh; position:relative; overflow:hidden; }
-        iframe { width:100%; height:100%; border:none; }
-        .close-btn { position:absolute; top:10px; right:20px; font-size:2rem; cursor:pointer; z-index:1001; color: #333; }
+        .btn {
+            display: inline-block;
+            margin-top: 15px;
+            color: var(--primary-color);
+            font-weight: 600;
+            text-decoration: none;
+        }
 
-        footer { text-align: center; padding: 20px; font-size: 0.8rem; color: #888; border-top: 1px solid #e1e1e1; }
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.8rem;
+            color: #888;
+            border-top: 1px solid #e1e1e1;
+        }
     </style>
 </head>
 <body>
 
     <nav>
         <div class="logo">DepEd Educator's Toolkit</div>
-        <div class="nav-right">
-            <div id="subscription-status" style="font-size: 0.9rem; color: #555;">Free Tries Left: 3/3</div>
-            <button onclick="document.getElementById('sub-modal').style.display='flex'" style="background:#28a745; color:white; border:none; padding:8px 16px; border-radius:6px; font-weight:600; cursor:pointer;">
-                Unlock Premium
-            </button>
-        </div>
+        <div id="subscription-status">Free Tries Left: 3/3</div>
     </nav>
 
     <div class="container">
@@ -57,14 +94,25 @@
                 <p>Official ILAW Matrix layout generator aligned directly to DO 3, s. 2026.</p>
                 <a href="Official DepEd ILAW Lesson Plan Generator.html" class="btn">Open Generator Tool →</a>
             </div>
-            </main>
-    </div>
 
-    <div id="sub-modal">
-        <span class="close-btn" onclick="document.getElementById('sub-modal').style.display='none'">&times;</span>
-        <div class="modal-content">
-            <iframe src="pricing.html"></iframe>
-        </div>
+            <div class="card">
+                <h3>Assessment Generator v1.0</h3>
+                <p>Build and construct customized formative, summative, and contextualized diagnostics.</p>
+                <a href="DepEd Assessment Generator v1.0.html" class="btn">Open Generator Tool →</a>
+            </div>
+
+            <div class="card">
+                <h3>Progress Report (Grades 1-3)</h3>
+                <p>Primary level performance matrix mapping and descriptive grading modules.</p>
+                <a href="Progress Report for Grades 1 to 3.html" class="btn">Open Generator Tool →</a>
+            </div>
+
+            <div class="card">
+                <h3>Progress Report (Grades 4-12)</h3>
+                <p>Intermediate, Junior, and Senior High report matrix layout.</p>
+                <a href="Progress Report for Grades 4 to 12.html" class="btn">Open Generator Tool →</a>
+            </div>
+        </main>
     </div>
 
     <footer>
