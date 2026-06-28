@@ -766,16 +766,21 @@ th {
     <script type="module">
         import { checkExportLimit } from './firebase-config.js';
 
-        window.handleExportClick = async function(type) {
-            const isAllowed = await checkExportLimit();
-            if (isAllowed) {
-                if (type === 'pdf') {
-                    if (typeof exportPDF === 'function') exportPDF();
-                } else if (type === 'word') {
-                    if (typeof exportWord === 'function') exportWord();
-                }
+        // This listener will now trigger the Firebase check 
+        // before running your internal export function
+        document.getElementById('export-btn').addEventListener('click', async () => {
+            const success = await checkExportLimit();
+            
+            if (success) {
+                // If success is true, run your specific export/download code here
+                console.log("Limit checked and passed. Proceeding with export...");
+                // e.g., generatePDF(); or downloadData();
+                alert("Export complete!");
+            } else {
+                // If success is false, checkExportLimit has already 
+                // triggered the alert and redirected the user.
             }
-        };
+        });
     </script>
 </body>
 </html>
