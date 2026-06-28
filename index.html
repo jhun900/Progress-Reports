@@ -6,80 +6,119 @@
     <title>DepEd Educator's Toolkit Portal</title>
     <style>
         :root {
-            --primary: #5a32ea;
-            --text-dark: #2d2d3a;
-            --bg-body: #f4f4f9;
+            --primary-color: #004a99;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #333;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+            --hover-shadow: 0 8px 12px rgba(0,0,0,0.15);
         }
 
         body {
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             margin: 0;
-            background: radial-gradient(circle at top right, #e0d8ff, transparent),
-                        radial-gradient(circle at bottom left, #d1d4ff, transparent);
-            min-height: 100vh;
             display: flex;
             flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Navigation Bar */
+        nav {
+            background: white;
+            padding: 15px 40px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
             align-items: center;
         }
 
-        nav { width: 90%; max-width: 1000px; padding: 30px 0; display: flex; justify-content: space-between; align-items: center; }
-        .hero-card { background: white; width: 90%; max-width: 1000px; padding: 60px; border-radius: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 40px; margin-bottom: 50px; }
-        .hero-text h1 { font-size: 3rem; color: var(--text-dark); margin: 0; }
-        .btn { background: var(--primary); color: white; padding: 15px 30px; border-radius: 50px; text-decoration: none; font-weight: bold; border: none; cursor: pointer; }
-        
-        #sub-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
-        .modal-content { background: white; padding: 40px; border-radius: 20px; max-width: 450px; text-align: center; }
+        .logo { font-weight: bold; color: var(--primary-color); font-size: 1.2rem; }
+
+        .container { max-width: 1000px; margin: 40px auto; flex: 1; padding: 0 20px; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #e1e1e1;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--primary-color);
+        }
+
+        .card h3 { margin-top: 0; color: var(--primary-color); }
+        .card p { font-size: 0.9em; color: #666; line-height: 1.5; }
+
+        .btn {
+            display: inline-block;
+            margin-top: 15px;
+            color: var(--primary-color);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.8rem;
+            color: #888;
+            border-top: 1px solid #e1e1e1;
+        }
     </style>
 </head>
 <body>
 
     <nav>
-        <div style="font-weight: 800; font-size: 1.2rem;">DEPD TOOLKIT</div>
-        <div>Portal Access</div>
+        <div class="logo">DepEd Educator's Toolkit</div>
+        <div id="subscription-status">Free Tries Left: 3/3</div>
     </nav>
 
-    <div class="hero-card">
-        <div class="hero-text">
-            <h1>Educator's<br>Toolkit Portal</h1>
-            <p>Official ILAW lesson planning and assessment generation.</p>
-            <button class="btn" onclick="handleToolClick('Official DepEd ILAW Lesson Plan Generator.html')">Start Generating</button>
-        </div>
-        <div style="background: #fdf5f5; border-radius: 20px; height: 300px; border: 2px dashed #eecaca; display: flex; align-items: center; justify-content: center; color: #d17a7a;">
-            Dashboard Preview
-        </div>
-    </div>
-
-    <div id="sub-modal">
-        <div class="modal-content">
-            <h2>Unlock Full Access</h2>
-            <p>You've used all 3 free trials. Please upgrade to continue.</p>
-            <div style="display:flex; gap:15px; margin-top:20px; flex-direction: column;">
-                <a href="https://pm.link/org-3uNpEp6juxNSZQt3KcdRoWSP/o1afH3D" class="btn">Monthly Plan</a>
-                <a href="https://pm.link/org-3uNpEp6juxNSZQt3KcdRoWSP/WnvIcRV" class="btn" style="background:#333;">Yearly Plan</a>
+    <div class="container">
+        <main class="grid">
+            <div class="card">
+                <h3>ILAW Lesson Plan Generator</h3>
+                <p>Official ILAW Matrix layout generator aligned directly to DO 3, s. 2026.</p>
+                <a href="Official DepEd ILAW Lesson Plan Generator.html" class="btn">Open Generator Tool →</a>
             </div>
-        </div>
+
+            <div class="card">
+                <h3>Assessment Generator v1.0</h3>
+                <p>Build and construct customized formative, summative, and contextualized diagnostics.</p>
+                <a href="DepEd Assessment Generator v1.0.html" class="btn">Open Generator Tool →</a>
+            </div>
+
+            <div class="card">
+                <h3>Progress Report (Grades 1-3)</h3>
+                <p>Primary level performance matrix mapping and descriptive grading modules.</p>
+                <a href="Progress Report for Grades 1 to 3.html" class="btn">Open Generator Tool →</a>
+            </div>
+
+            <div class="card">
+                <h3>Progress Report (Grades 4-12)</h3>
+                <p>Intermediate, Junior, and Senior High report matrix layout.</p>
+                <a href="Progress Report for Grades 4 to 12.html" class="btn">Open Generator Tool →</a>
+            </div>
+        </main>
     </div>
 
-    <script type="module">
-        import { auth, checkExportLimit } from './firebase-config.js';
-        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+    <footer>
+        &copy; 2026 DepEd Educator's Toolkit Portal | All rights reserved.
+    </footer>
 
-        // Logic to handle navigation
-        window.handleToolClick = async (url) => {
-            const allowed = await checkExportLimit();
-            if (allowed) {
-                window.location.href = url;
-            } else {
-                document.getElementById('sub-modal').style.display = 'flex';
-            }
-        };
-
-        // Close modal if user clicks outside
-        window.onclick = (event) => {
-            if (event.target == document.getElementById('sub-modal')) {
-                document.getElementById('sub-modal').style.display = "none";
-            }
-        }
-    </script>
+    <script src="firebase-config.js"></script>
 </body>
 </html>
