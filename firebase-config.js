@@ -13,15 +13,11 @@ const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const auth = getAuth(app);
 
-// Sign in anonymously
 signInAnonymously(auth);
 
-// Function to update the UI counter
 export async function updateTrialDisplay(userId) {
     const userRef = doc(db, "users", userId);
     const userDoc = await getDoc(userRef);
-    
-    // Default values if user doesn't exist yet
     const used = userDoc.exists() ? (userDoc.data().exportCount || 0) : 0;
     const total = 3;
     const remaining = Math.max(0, total - used);
@@ -32,32 +28,25 @@ export async function updateTrialDisplay(userId) {
     }
 }
 
-// Automatically update the UI once the user is signed in
 onAuthStateChanged(auth, (user) => {
-    if (user) {
-        updateTrialDisplay(user.uid);
-    }
+    if (user) updateTrialDisplay(user.uid);
 });
 
-// Export the limit check function
 export async function checkExportLimit() {
   const user = auth.currentUser;
   if (!user) return false;
 
   const userRef = doc(db, "users", user.uid);
   const docSnap = await getDoc(userRef);
-
   let count = docSnap.exists() ? (docSnap.data().exportCount || 0) : 0;
 
-  if (count >= 3) {
-    alert("Free limit reached! Please upgrade to continue.");
-    window.location.href = 'Subscription button.html';
-    return false;
-  }
+  if (count >= 3) return false; // Return false to trigger the Modal in HTML
 
-  await updateDoc(userRef, { exportCount: increment(1) }, { merge: true });
-  
-  // Refresh the UI counter after incrementing
+  if (!docSnap.exists()) {
+      await setDoc(userRef, { exportCount: 1 }, { merge: true });
+  } else {
+      await updateDoc(userRef, { exportCount: increment(1) });
+  }
   updateTrialDisplay(user.uid);
   return true;
 }
