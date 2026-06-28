@@ -732,22 +732,18 @@ Return ONLY a valid JSON object matching this structural schema template exactly
     import { checkExportLimit } from './firebase-config.js';
 
     document.getElementById('generateBtn').addEventListener('click', async () => {
-        const status = document.getElementById("status");
-        status.textContent = "Checking limit and generating...";
-        
-        // Check Firebase Limit
-        const success = await checkExportLimit();
-        
-        if (success) {
-            console.log("Access granted. Generating ILAW Plan...");
-            // Replace 'generateAll' with your specific function name for this tool
-            generateILAWPlan(); 
-        } else {
-            // Trigger the modal if limit is reached
-            document.getElementById('subscriptionModal').style.display = 'block';
-            status.textContent = "Generation blocked.";
-        }
-    });
+    // 1. Check the limit FIRST
+    const success = await checkExportLimit();
+    
+    if (success) {
+        // 2. Only run this if success is true
+        generateILAWPlan(); 
+    } else {
+        // 3. This block MUST exist to stop the function
+        document.getElementById('subscriptionModal').style.display = 'block';
+        console.log("Export blocked by Firebase limit.");
+    }
+});
 </script>
 </body>
 </html>
