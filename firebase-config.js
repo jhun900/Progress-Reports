@@ -18,7 +18,10 @@ signInAnonymously(auth);
 export async function updateTrialDisplay(userId) {
     const userRef = doc(db, "users", userId);
     const userDoc = await getDoc(userRef);
-    const used = userDoc.exists() ? (userDoc.data().exportCount || 0) : 0;
+    
+    // Default to 0 if document is missing
+    const data = userDoc.exists() ? userDoc.data() : { exportCount: 0, isPremium: false };
+    const used = data.exportCount || 0;
     const total = 3;
     const remaining = Math.max(0, total - used);
     
@@ -38,15 +41,26 @@ export async function checkExportLimit() {
 
   const userRef = doc(db, "users", user.uid);
   const docSnap = await getDoc(userRef);
-  let count = docSnap.exists() ? (docSnap.data().exportCount || 0) : 0;
 
-  if (count >= 3) return false; // Return false to trigger the Modal in HTML
-
+  // 1. If user doesn't exist, create them immediately so they aren't blocked
   if (!docSnap.exists()) {
-      await setDoc(userRef, { exportCount: 1 }, { merge: true });
-  } else {
-      await updateDoc(userRef, { exportCount: increment(1) });
+      await setDoc(userRef, { exportCount: 1, isPremium: false }, { merge: true });
+      updateTrialDisplay(user.uid);
+      return true; // First generation allowed
   }
+
+  const data = docSnap.data();
+  
+  // 2. Premium users bypass all limits
+  if (data.isPremium === true) return true;
+
+  // 3. Limit check for non-premium users
+  let count = data.exportCount || 0;
+  if (count >= 3) return false;
+
+  // 4. Increment for returning free users
+  await updateDoc(userRef, { exportCount: increment(1) });
+  
   updateTrialDisplay(user.uid);
   return true;
 }
