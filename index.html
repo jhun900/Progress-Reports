@@ -542,16 +542,36 @@
     </main>
 
     <script>
-        // Initialize and update counter on load
-        let freeTries = parseInt(localStorage.getItem('deped_toolkit_tries') || 3);
-        document.getElementById('triesCounter').innerText = freeTries;
-        
-        function handleToolAccess(event, url) {
-            if (freeTries > 0) return true;
+    // 1. Initial Load: Check for premium status and free tries
+    let isPremium = localStorage.getItem('is_premium') === 'true';
+    let freeTries = parseInt(localStorage.getItem('deped_toolkit_tries') || 3);
+
+    // Update the UI counter if the element exists
+    const counterEl = document.getElementById('triesCounter');
+    if (counterEl) {
+        counterEl.innerText = isPremium ? "∞" : freeTries;
+    }
+
+    // 2. Updated Access Function
+    function handleToolAccess(event, url) {
+        // Refresh local storage values in case they changed in another tab
+        let isPremium = localStorage.getItem('is_premium') === 'true';
+        let currentTries = parseInt(localStorage.getItem('deped_toolkit_tries') || 3);
+
+        // Access allowed if Premium OR have tries left
+        if (isPremium || currentTries > 0) {
+            return true; 
+        } else {
+            // Block access and show the paywall
             event.preventDefault();
-            alert("Free tries exhausted. Please upgrade.");
+            if (typeof openPaywallModal === 'function') {
+                openPaywallModal();
+            } else {
+                alert("Free tries exhausted. Please upgrade.");
+            }
             return false;
         }
-    </script>
+    }
+</script>
 </body>
 </html>
