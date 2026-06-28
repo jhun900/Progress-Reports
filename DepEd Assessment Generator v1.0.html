@@ -129,7 +129,8 @@ Demonstrate understanding of the correct use of verbs in sentences.
 Classify various materials as solid, liquid, or gas based on attributes."></textarea>
         </div>
 
-        <button onclick="if(parseInt(localStorage.getItem('deped_toolkit_tries') || 3) > 0) { decrementCounter(); generateAll(); } else { alert('No free tries left. Please upgrade.'); }" id="generateBtn" class="mt-5 w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 px-4 rounded transition">
+        <!-- Replace your existing Generate button with this -->
+<button id="generateBtn" class="mt-5 w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 px-4 rounded transition">
     Generate TOS & Test Questions
 </button>
         <p id="status" class="mt-2 text-center text-sm"></p>
@@ -764,23 +765,22 @@ th {
         }
     </script>
     <script type="module">
-        import { checkExportLimit } from './firebase-config.js';
+    import { checkExportLimit } from './firebase-config.js';
 
-        // This listener will now trigger the Firebase check 
-        // before running your internal export function
-        document.getElementById('export-btn').addEventListener('click', async () => {
-            const success = await checkExportLimit();
-            
-            if (success) {
-                // If success is true, run your specific export/download code here
-                console.log("Limit checked and passed. Proceeding with export...");
-                // e.g., generatePDF(); or downloadData();
-                alert("Export complete!");
-            } else {
-                // If success is false, checkExportLimit has already 
-                // triggered the alert and redirected the user.
-            }
-        });
-    </script>
+    // This handles the Generation gatekeeper
+    document.getElementById('generateBtn').addEventListener('click', async () => {
+        // First, check the Firestore export limit
+        const canExport = await checkExportLimit();
+        
+        if (canExport) {
+            // Only proceed with generation if Firebase confirms < 3 tries used
+            generateAll(); 
+        } else {
+            // If checkExportLimit returns false, the user has reached their limit
+            // and the function has already redirected them to the subscription page.
+            console.warn("Generation blocked: Export limit reached.");
+        }
+    });
+</script>
 </body>
 </html>
