@@ -8,15 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script>
         tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        depedBlue: '#004B87',
-                        depedDark: '#00335C',
-                        paymongoGreen: '#28a745'
-                    }
-                }
-            }
+            theme: { extend: { colors: { depedBlue: '#004B87', depedDark: '#00335C', paymongoGreen: '#28a745' } } }
         }
     </script>
 </head>
@@ -24,10 +16,7 @@
 
     <header class="bg-white shadow-sm border-b-4 border-depedBlue sticky top-0 z-40">
         <div class="container mx-auto px-4 py-4 max-w-6xl flex justify-between items-center">
-            <div>
-                <h1 class="text-xl font-bold text-depedDark">DepEd Educator's Toolkit Portal</h1>
-                <p class="text-xs text-gray-500">Centralized automation & document generator dashboard</p>
-            </div>
+            <h1 class="text-xl font-bold text-depedDark">DepEd Educator's Toolkit Portal</h1>
             <span id="trialBadge" class="text-xs font-semibold bg-blue-50 text-depedBlue px-3 py-1 rounded-full border border-blue-200">
                 <i class="fa fa-bolt mr-1"></i> Free Tries Left: <span id="triesCounter">3</span>/3
             </span>
@@ -35,59 +24,46 @@
     </header>
 
     <main class="container mx-auto px-4 py-8 max-w-6xl">
-        <div class="mb-6 flex justify-between items-center">
-            <h2 class="text-lg font-semibold text-gray-700">Available Utilities</h2>
-            <button onclick="openPaywallModal()" class="bg-depedBlue hover:bg-depedDark text-white text-xs font-bold px-4 py-2.5 rounded-lg transition shadow-sm">
-                <i class="fa fa-star"></i> Upgrade to Premium
-            </button>
-        </div>
-
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="bg-white border hover:border-depedBlue rounded-xl shadow-sm p-5 flex flex-col">
+            
+            <div class="bg-white border-2 border-indigo-500 rounded-xl shadow-sm p-5 flex flex-col">
                 <h3 class="font-bold text-gray-900 mb-1">Reading Resources Generator</h3>
                 <p class="text-xs text-gray-600 mb-4">Generate DepEd-aligned reading materials.</p>
-                <a href="reading-resources.html" onclick="return handleToolAccess(event, this.href)" class="text-xs font-bold text-depedBlue hover:underline mt-auto">Open Tool →</a>
+                <a href="reading-resources.html" onclick="return handleToolAccess(event, this.href)" class="text-xs font-bold text-indigo-600 hover:underline">Open Tool →</a>
             </div>
-            <div class="bg-white border hover:border-depedBlue rounded-xl shadow-sm p-5 flex flex-col">
+
+            <div class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
                 <h3 class="font-bold text-gray-900 mb-1">ILAW Lesson Plan Generator</h3>
                 <p class="text-xs text-gray-600 mb-4">Official ILAW Matrix layout generator.</p>
-                <a href="Official DepEd ILAW Lesson Plan Generator.html" onclick="return handleToolAccess(event, this.href)" class="text-xs font-bold text-depedBlue hover:underline mt-auto">Open Tool →</a>
+                <a href="Official DepEd ILAW Lesson Plan Generator.html" onclick="return handleToolAccess(event, this.href)" class="text-xs font-bold text-depedBlue hover:underline">Open Tool →</a>
             </div>
         </div>
     </main>
 
-    <div id="paywallModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 hidden">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-8 text-center">
-            <h3 class="text-xl font-bold mb-4">Unlock Premium Educator Suite</h3>
-            <p class="text-sm text-gray-600 mb-6">You've exhausted your free tries. Please upgrade to continue.</p>
-            <a href="https://pm.link/org-3uNpEp6juxNSZQt3KcdRoWSP/WnvIcRV" class="block bg-paymongoGreen text-white font-bold py-3 rounded-lg">Upgrade Now</a>
-            <button onclick="closePaywallModal()" class="mt-4 text-gray-400 text-sm">Close</button>
-        </div>
-    </div>
-
     <script>
-        // Logic to update the counter display
+        // Update Counter UI
         function updateUI() {
             let isPremium = localStorage.getItem('is_premium') === 'true';
-            let tries = localStorage.getItem('deped_toolkit_tries') || 3;
-            document.getElementById('triesCounter').innerText = isPremium ? "∞" : tries;
-        }
-
-        function handleToolAccess(event, url) {
-            let isPremium = localStorage.getItem('is_premium') === 'true';
-            let tries = parseInt(localStorage.getItem('deped_toolkit_tries') || 3);
-            
-            if (isPremium || tries > 0) {
-                return true;
-            } else {
-                event.preventDefault();
-                document.getElementById('paywallModal').classList.remove('hidden');
-                return false;
+            let freeTries = parseInt(localStorage.getItem('deped_toolkit_tries') || 3);
+            const counterEl = document.getElementById('triesCounter');
+            if (counterEl) {
+                counterEl.innerText = isPremium ? "∞" : freeTries;
             }
         }
 
-        function openPaywallModal() { document.getElementById('paywallModal').classList.remove('hidden'); }
-        function closePaywallModal() { document.getElementById('paywallModal').classList.add('hidden'); }
+        // Handle Access
+        function handleToolAccess(event, url) {
+            let isPremium = localStorage.getItem('is_premium') === 'true';
+            let freeTries = parseInt(localStorage.getItem('deped_toolkit_tries') || 3);
+
+            if (isPremium || freeTries > 0) {
+                return true; 
+            } else {
+                event.preventDefault();
+                alert("Free tries exhausted. Please upgrade to continue.");
+                return false;
+            }
+        }
 
         updateUI();
     </script>
