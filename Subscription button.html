@@ -148,6 +148,18 @@
         }
     </style>
 </head>
+    <script>
+    // Call this function when the user returns after a successful payment
+    function activatePremium() {
+        // Set a special flag in localStorage to indicate they are premium
+        localStorage.setItem('is_premium', 'true');
+        // Reset or set tries to a very high number
+        localStorage.setItem('deped_toolkit_tries', 9999); 
+        
+        alert("Payment verified! Your account is now upgraded to Premium.");
+        window.location.href = "index.html"; // Redirect back to dashboard
+    }
+</script>
 <body>
 
 <div class="pricing-container">
