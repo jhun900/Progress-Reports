@@ -129,9 +129,9 @@ Demonstrate understanding of the correct use of verbs in sentences.
 Classify various materials as solid, liquid, or gas based on attributes."></textarea>
         </div>
 
-        <button onclick="generateAll()" id="generateBtn" class="mt-5 w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 px-4 rounded transition">
-            Generate TOS & Test Questions
-        </button>
+        <button onclick="if(parseInt(localStorage.getItem('deped_toolkit_tries') || 3) > 0) { decrementCounter(); generateAll(); } else { alert('No free tries left. Please upgrade.'); }" id="generateBtn" class="mt-5 w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 px-4 rounded transition">
+    Generate TOS & Test Questions
+</button>
         <p id="status" class="mt-2 text-center text-sm"></p>
     </div>
 
