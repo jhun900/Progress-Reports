@@ -48,6 +48,36 @@
             }
         }
     </style>
+    <head>
+    <script>
+    // Existing decrement function
+    function decrementCounter() {
+        let currentTries = parseInt(localStorage.getItem('deped_toolkit_tries') || 3);
+        if (currentTries > 0) {
+            currentTries--;
+            localStorage.setItem('deped_toolkit_tries', currentTries);
+        }
+    }
+
+    // New Event Listeners
+    document.addEventListener('DOMContentLoaded', function() {
+        const pdfBtn = document.getElementById('exportPdfBtn');
+        const docxBtn = document.getElementById('exportDocxBtn');
+
+        if(pdfBtn) {
+            pdfBtn.addEventListener('click', function() {
+                decrementCounter();
+            });
+        }
+        
+        if(docxBtn) {
+            docxBtn.addEventListener('click', function() {
+                decrementCounter();
+            });
+        }
+    });
+</script>
+</head>
 </head>
 <body class="bg-gray-50 min-h-screen">
     <div class="container mx-auto px-4 py-6 max-w-5xl">
