@@ -152,53 +152,39 @@
 
 <div class="pricing-container">
     
-    <!-- Monthly Plan Card -->
     <div class="pricing-card">
-        <h3 class="plan-name">Monthly Plan</h3>
-        <div class="plan-price">₱149<span> / month</span></div>
-        <div class="plan-savings">Pay as you go</div>
-        
-        <ul class="plan-features">
-            <li>Full access to all tools</li>
-            <li>ILAW Lesson Plan Generator</li>
-            <li>Assessment Generator v1.0</li>
-            <li>Progress Report Utilities</li>
-            <li>Manual renewal control</li>
-        </ul>
-        
         <a href="https://pm.link/org-3uNpEp6juxNSZQt3KcdRoWSP/o1afH3D" target="_blank" class="btn-subscribe">Subscribe Monthly</a>
     </div>
 
-    <!-- Annual Plan Card (Featured) -->
     <div class="pricing-card featured">
-        <div class="badge">BEST VALUE</div>
-        <h3 class="plan-name">Annual Plan</h3>
-        <div class="plan-price">₱999<span> / year</span></div>
-        <div class="plan-savings">Save ₱789 (Nearly 5 Months Free!)</div>
-        
-        <ul class="plan-features">
-            <li>Full access to all tools</li>
-            <li>ILAW Lesson Plan Generator</li>
-            <li>Assessment Generator v1.0</li>
-            <li>Progress Report Utilities</li>
-            <li>Uninterrupted 365 days access</li>
-        </ul>
-        
         <a href="https://pm.link/org-3uNpEp6juxNSZQt3KcdRoWSP/WnvIcRV" target="_blank" class="btn-subscribe">Subscribe Annually</a>
     </div>
-
 </div>
-     <script>
-    // Call this function when the user returns after a successful payment
+
+<div style="margin-top: 40px; text-align: center;">
+    <button id="verifyBtn" 
+            onclick="activatePremium()" 
+            style="background: #ccc; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;" 
+            class="hidden">
+        Verify Payment & Unlock Premium
+    </button>
+</div>
+
+<script>
     function activatePremium() {
-        // Set a special flag in localStorage to indicate they are premium
         localStorage.setItem('is_premium', 'true');
-        // Reset or set tries to a very high number
-        localStorage.setItem('deped_toolkit_tries', 9999); 
-        
+        localStorage.setItem('deped_toolkit_tries', 9999);
         alert("Payment verified! Your account is now upgraded to Premium.");
-        window.location.href = "index.html"; // Redirect back to dashboard
+        window.location.href = "index.html";
     }
+
+    // Optional: Add a keyboard shortcut to show the button (e.g., Press 'V')
+    // This allows you to verify a user secretly without cluttering the page.
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'v') {
+            document.getElementById('verifyBtn').classList.remove('hidden');
+        }
+    });
 </script>
 
 </body>
