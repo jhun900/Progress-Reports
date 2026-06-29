@@ -34,16 +34,6 @@
         .btn-pdf { @apply bg-red-600 hover:bg-red-700; }
         .btn-word { @apply bg-blue-600 hover:bg-blue-700; }
     </style>
-    <script>
-    function decrementCounter() {
-        let currentTries = localStorage.getItem('deped_toolkit_tries');
-        if (currentTries > 0) {
-            currentTries--;
-            localStorage.setItem('deped_toolkit_tries', currentTries);
-            console.log("Try used. Remaining: " + currentTries);
-        }
-    }
-</script>
 </head>
 <body class="bg-gray-50 max-w-7xl mx-auto p-4 md:p-6">
 
@@ -129,11 +119,10 @@ Demonstrate understanding of the correct use of verbs in sentences.
 Classify various materials as solid, liquid, or gas based on attributes."></textarea>
         </div>
 
-        <!-- Replace your existing Generate button with this -->
-<button id="generateBtn" class="mt-5 w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 px-4 rounded transition">
-    Generate TOS & Test Questions
-</button>
-    <p id="status" class="mt-2 text-center text-sm"></p>
+        <button onclick="generateAll()" id="generateBtn" class="mt-5 w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 px-4 rounded transition">
+            Generate TOS & Test Questions
+        </button>
+        <p id="status" class="mt-2 text-center text-sm"></p>
     </div>
 
     <div id="output" class="hidden">
@@ -763,33 +752,6 @@ th {
             });
             saveAs(blob, `DepEd_Assessment_Matrix_${d.subject}.doc`);
         }
-        
     </script>
-    <div id="subscriptionModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000;">
-        <div style="background:white; margin:15% auto; padding:20px; width:300px; border-radius:8px; text-align:center;">
-            <h3>Unlock Premium</h3>
-            <p>You've reached your free trial limit. Subscribe to continue using the toolkit.</p>
-            <button onclick="window.location.href='Subscription button.html'" style="background:#d97706; color:white; padding:10px; border:none; border-radius:4px; cursor:pointer;">View Plans</button>
-        </div>
-    </div>
-    <script type="module">
-    import { checkExportLimit } from './firebase-config.js';
-
-    document.getElementById('generateBtn').addEventListener('click', async () => {
-        const status = document.getElementById("status");
-        status.textContent = "Checking limit...";
-        
-        const success = await checkExportLimit();
-        
-        if (success) {
-            generateAll(); 
-        } else {
-            // This triggers your new modal
-            document.getElementById('subscriptionModal').style.display = 'block';
-            status.textContent = "Free limit reached.";
-        }
-    });
-</script>
-
-    </body>
+</body>
 </html>
