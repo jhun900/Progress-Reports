@@ -162,7 +162,6 @@ Classify various materials as solid, liquid, or gas based on attributes."></text
     <script src="/js/bitly-links.js"></script>
 
     <script>
-        const MISTRAL_API_KEY = "GVgRqeTk5bdH4GYa10FRAw7hC3x2vqyF";
 
         const COGNITIVE = {
             remembering: { label: "Remembering", percent: 25 },
@@ -172,7 +171,64 @@ Classify various materials as solid, liquid, or gas based on attributes."></text
             evaluating: { label: "Evaluating", percent: 7 },
             creating: { label: "Creating", percent: 3 }
         };
+        // ✅ New secure function to call Mistral
+  async function callMistral(prompt) {
+    try {
+      const res = await fetch("/api/call-mistral", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: prompt })
+      });
+
+      const result = await res.json();
+      if (result.error) throw new Error(result.error);
+      return result.reply;
+    } catch (err) {
+      console.error("Mistral error:", err);
+      return "Error: Could not get response.";
+    }
+  }
         const COGNITIVE_ORDER = ["remembering", "understanding", "applying", "analyzing", "evaluating", "creating"];
+        // ==================================================
+    // ✅ PASTE YOUR NEW CODE HERE — RIGHT AFTER ABOVE
+    // ==================================================
+    async function generateAndShare(grade, subject, topic, items = 10, expiry = "1y") {
+        try {
+            const prompt = `Create a ${items}-item test for ${grade} - ${subject} about ${topic}.
+            Follow this distribution based on Bloom's Taxonomy:
+            - Remembering: ${COGNITIVE.remembering.percent}%
+            - Understanding: ${COGNITIVE.understanding.percent}%
+            - Applying: ${COGNITIVE.applying.percent}%
+            - Analyzing: ${COGNITIVE.analyzing.percent}%
+            - Evaluating: ${COGNITIVE.evaluating.percent}%
+            - Creating: ${COGNITIVE.creating.percent}%
+            Include clear instructions, questions, and a separate answer key.`;
+
+            document.getElementById("answerKey").textContent = "Generating... Please wait.";
+            const content = await callMistral(prompt);
+            document.getElementById("answerKey").innerHTML = content.replace(/\n/g, "<br>");
+
+            const currentUrl = window.location.href;
+            const expiringLink = await createBitlyLink(currentUrl, expiry);
+
+            if (expiringLink) {
+                const linkHtml = `
+                    <div style="margin-top: 20px; padding: 12px; background: #f0f9ff; border-radius: 6px;">
+                        <strong>Shareable Expiring Link:</strong><br>
+                        <a href="${expiringLink}" target="_blank" style="color: #2563eb; word-break: break-all;">${expiringLink}</a>
+                        <br><small>Expires after: ${expiry === "1y" ? "1 Year" : expiry === "6m" ? "6 Months" : expiry === "1m" ? "1 Month" : "30 Days"}</small>
+                    </div>
+                `;
+                document.getElementById("answerKey").insertAdjacentHTML("afterend", linkHtml);
+            }
+
+            return expiringLink;
+        } catch (err) {
+            console.error("Workflow error:", err);
+            document.getElementById("answerKey").textContent = "Something went wrong: " + err.message;
+            return null;
+        }
+    }
 
         const subjectMapping = {
             "Kindergarten": ["Makabansa", "Languages", "Mathematics", "GMRC"],
